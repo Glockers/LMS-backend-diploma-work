@@ -16,7 +16,6 @@ export class CourseController {
 
   @Post()
   create(@Body() createCourseDto: Prisma.CourseCreateInput) {
-    console.log(createCourseDto);
     return this.courseService.create(createCourseDto);
   }
 

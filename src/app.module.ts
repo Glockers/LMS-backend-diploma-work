@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { CourseModule } from './models/course/course.module';
 import { ChapterModule } from './models/chapter/chapter.module';
 import { StripeModule } from './models/stripe/stripe.module';
+import { CertificateModule } from './models/certificate/certificate.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { StripeModule } from './models/stripe/stripe.module';
     DatabaseModule,
     CourseModule,
     ChapterModule,
-    StripeModule
+    StripeModule,
+    CertificateModule
   ]
 })
 export class AppModule {}

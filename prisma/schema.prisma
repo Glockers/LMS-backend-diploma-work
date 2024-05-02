@@ -20,6 +20,7 @@ model Course {
   chapters    Chapter[]
   purchases   Purchase[]
   attachments Attachment[]
+  cerfificate Certificate[]
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
@@ -117,8 +118,12 @@ model StripeCustomer {
 model Certificate {
   id String @id @default(uuid())
   userId String
+
   courseId String
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
 }
