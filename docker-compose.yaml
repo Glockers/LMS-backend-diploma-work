@@ -1,6 +1,11 @@
 version: '3.9'
 
 services:
+  stripe:
+    image: stripe/stripe-cli:latest
+    command: listen --skip-verify --forward-to host.docker.internal:5000/api/webhook
+    extra_hosts:
+      - --add-host=host.docker.internal:host-gateway
   postgres:
     container_name: postgres
     image: postgres:14-alpine
@@ -18,7 +23,7 @@ services:
     container_name: pgadmin4_contain
     restart: always
     ports:
-      - "8888:80"
+      - '8888:80'
     environment:
       PGADMIN_DEFAULT_EMAIL: root@domain.com
       PGADMIN_DEFAULT_PASSWORD: root

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { CourseModule } from './course/course.module';
 import { DatabaseModule } from './database/database.module';
+import { CourseModule } from './models/course/course.module';
+import { ChapterModule } from './models/chapter/chapter.module';
+import { StripeModule } from './models/stripe/stripe.module';
 
 @Module({
   imports: [
@@ -11,9 +11,9 @@ import { DatabaseModule } from './database/database.module';
       isGlobal: true
     }),
     DatabaseModule,
-    CourseModule
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+    CourseModule,
+    ChapterModule,
+    StripeModule
+  ]
 })
 export class AppModule {}
