@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CertificateService } from './certificate.service';
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 
@@ -11,8 +11,8 @@ export class CertificateController {
     return await this.certificateService.create(createCertificateDto);
   }
 
-  @Get(':userId')
-  findAllByUser(@Param('userId') userId: string) {
+  @Get()
+  findAllByUser(@Query('userId') userId: string) {
     return this.certificateService.findAllByUser(userId);
   }
 

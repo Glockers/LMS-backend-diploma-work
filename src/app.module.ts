@@ -16,6 +16,24 @@ import { CertificateModule } from './models/certificate/certificate.module';
     ChapterModule,
     StripeModule,
     CertificateModule
+    // MailerModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   imports: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     transport: {
+    //       host: configService.get('MAIL_HOST'),
+    //       port: configService.get('MAIL_PORT'),
+    //       secure: false, // upgrade later with STARTTLS
+    //       auth: {
+    //         user: configService.get('MAIL_USER'),
+    //         pass: configService.get('MAIL_PASSWORD')
+    //       }
+    //     },
+    //     defaults: {
+    //       from: configService.get('MAIL_SENDER')
+    //     }
+    //   })
+    // })
   ]
 })
 export class AppModule {}
