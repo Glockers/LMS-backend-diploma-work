@@ -8,122 +8,136 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Course {
-  id          String  @id @default(uuid())
-  userId      String
-  title       String  @db.Text
-  description String? @db.Text
-  imageUrl    String? @db.Text
-  price       Float?
-  isPublished Boolean @default(false)
+model User {
+  id          String @id
+  name        String
+  lastname    String
+  surname     String
+  email       String
+  mobilePhone String
+}
 
-  chapters    Chapter[]
-  purchases   Purchase[]
+model Course {
+  id          String             @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String?
+  isPublished Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  categoryId  String?
+  price       Float?
+  updatedAt   DateTime           @updatedAt
+  userId      String
   attachments Attachment[]
   cerfificate Certificate[]
-
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  chapters    Chapter[]
+  category    Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  purchases   Purchase[]
+  tests       UserProgressTest[]
 }
 
 model Category {
-  id   String @id @default(uuid())
-  name String @unique
-
-  courses Course[]
-
+  id        String   @id @default(uuid())
+  name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  courses   Course[]
 }
 
 model Attachment {
-  id   String @id @default(uuid())
-  name String
-  url  String @db.Text
-
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  courseId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Chapter {
-  id          String  @id @default(uuid())
-  title       String
-  description String? @db.Text
-  videoUrl    String? @db.Text
-  position    Int
-  isPublished Boolean @default(false)
-  isFree      Boolean @default(false)
-
+  id           String         @id @default(uuid())
+  title        String
+  description  String?
+  videoUrl     String?
+  position     Int
+  isFree       Boolean        @default(false)
+  isPublished  Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  courseId     String
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
   muxData      MuxData?
   userProgress UserProgress[]
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model MuxData {
   id         String  @id @default(uuid())
   assetId    String
   playbackId String?
-
-  chapterId String  @unique
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId  String  @unique
+  chapter    Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }
 
 model UserProgress {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   userId      String
-  isCompleted Boolean @default(false)
-
-  chapterId String
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isCompleted Boolean  @default(false)
+  chapterId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@unique([userId, chapterId])
 }
 
+model UserProgressTest {
+  id             String    @id @default(uuid())
+  userId         String
+  isCompleted    Boolean   @default(false)
+  courseId       String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  correctAnswers Int?
+  timeEnd        DateTime?
+  timeStart      DateTime?
+  course         Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
 model Purchase {
-  id     String @id @default(uuid())
-  userId String
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
 }
 
 model StripeCustomer {
-  id               String @id @default(uuid())
-  userId           String @unique
-  stripeCustomerId String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  stripeCustomerId String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model Certificate {
-  id String @id @default(uuid())
-  userId String
-
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
+}
+
+model Lections {
+  id     String   @id @default(uuid())
+  link   String
+  date   DateTime
+  userId String
 }

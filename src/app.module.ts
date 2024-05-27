@@ -5,6 +5,8 @@ import { CourseModule } from './models/course/course.module';
 import { ChapterModule } from './models/chapter/chapter.module';
 import { StripeModule } from './models/stripe/stripe.module';
 import { CertificateModule } from './models/certificate/certificate.module';
+import { UserModule } from './models/user/user.module';
+import { TestModule } from './models/test/test.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { CertificateModule } from './models/certificate/certificate.module';
     CourseModule,
     ChapterModule,
     StripeModule,
-    CertificateModule
+    CertificateModule,
+    UserModule,
+    TestModule
     // MailerModule.forRootAsync({
     //   inject: [ConfigService],
     //   imports: [ConfigService],
