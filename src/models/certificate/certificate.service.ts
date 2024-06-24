@@ -33,4 +33,33 @@ export class CertificateService {
       }
     });
   }
+
+  async findAll() {
+    return await this.databaseService.certificate.findMany({
+      include: {
+        course: {}
+      }
+    });
+  }
+
+  async deleteById(id: string) {
+    const { courseId, userId } = await this.findOne(id);
+
+    return await this.databaseService.$transaction(async (tx) => {
+      await tx.userProgressTest.delete({
+        where: {
+          userId_courseId: {
+            userId,
+            courseId
+          }
+        }
+      });
+
+      return await tx.certificate.delete({
+        where: {
+          id
+        }
+      });
+    });
+  }
 }

@@ -384,6 +384,13 @@
   dependencies:
     google-gax "^4.0.3"
 
+"@google-apps/meet@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@google-apps/meet/-/meet-0.3.0.tgz#6e7a747de3590018a8d82c698ea6becede62d8cd"
+  integrity sha512-tUEND72ULVNUfGfiz637JzP+k/Cy2/kpQA16yw6IWlbvTbJ1c6QKznfx1Ne1AucXCVaBjvnygG+vvqAgsdqeqA==
+  dependencies:
+    google-gax "^4.0.3"
+
 "@grpc/grpc-js@~1.10.3":
   version "1.10.8"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.10.8.tgz#99787785cd8335be861afd1cd485ae9f058e4484"

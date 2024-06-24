@@ -7,6 +7,7 @@ import { StripeModule } from './models/stripe/stripe.module';
 import { CertificateModule } from './models/certificate/certificate.module';
 import { UserModule } from './models/user/user.module';
 import { TestModule } from './models/test/test.module';
+import { LectureModule } from './models/lecture/lecture.module';
 
 @Module({
   imports: [
@@ -19,25 +20,8 @@ import { TestModule } from './models/test/test.module';
     StripeModule,
     CertificateModule,
     UserModule,
-    TestModule
-    // MailerModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   imports: [ConfigService],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     transport: {
-    //       host: configService.get('MAIL_HOST'),
-    //       port: configService.get('MAIL_PORT'),
-    //       secure: false, // upgrade later with STARTTLS
-    //       auth: {
-    //         user: configService.get('MAIL_USER'),
-    //         pass: configService.get('MAIL_PASSWORD')
-    //       }
-    //     },
-    //     defaults: {
-    //       from: configService.get('MAIL_SENDER')
-    //     }
-    //   })
-    // })
+    TestModule,
+    LectureModule
   ]
 })
 export class AppModule {}

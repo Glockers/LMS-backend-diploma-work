@@ -13,7 +13,7 @@ export class TestService {
     this.client = client;
   }
 
-  async askGpt(topic, numberOfQuestions): Promise<string> {
+  async askGpt(topic): Promise<string> {
     const result = await this.client.generateText({
       model: 'models/text-bison-001',
       temperature: 0.7,
@@ -55,6 +55,7 @@ export class TestService {
 
     return outputs as any;
   }
+
   fixMalformedJSON(malformedJSONArray) {
     const malformedJSON = malformedJSONArray[0];
 
@@ -71,11 +72,8 @@ export class TestService {
 
   async createTest(courseId: string, variantsCount: number) {
     try {
-      // const { title } = await this.courseService.findOne(courseId);
-      const result = (await this.askGpt(
-        'Full stack developer',
-        variantsCount
-      )) as any;
+      const { title } = await this.courseService.findOne(courseId);
+      const result = (await this.askGpt(title)) as any;
       console.log(this.fixMalformedJSON(result));
       return [
         ...this.fixMalformedJSON(result),
@@ -83,8 +81,8 @@ export class TestService {
       ];
     } catch (error) {
       console.error('Ошибка при создании теста:', error);
-      await this.wait(1000); // Задержка в 1 секунду перед повторным вызовом
-      return this.createTest(courseId, variantsCount); // Повторный вызов функции
+      await this.wait(1000);
+      return this.createTest(courseId, variantsCount);
     }
   }
 

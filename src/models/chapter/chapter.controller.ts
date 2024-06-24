@@ -12,11 +12,6 @@ export class ChapterController {
     return this.chapterService.updateProgress(updateProgressTheory);
   }
 
-  // @Patch('/user-progress-test')
-  // async updateProgressTest(@Body() updateProgressTest: UpdateTestProgress) {
-  //   return this.chapterService.updateProgressTest(updateProgressTest);
-  // }
-
   @Get('/progress')
   getProgress(
     @Query('userId') userId: string,
@@ -35,6 +30,7 @@ export class ChapterController {
     @Query('userId') userId: string,
     @Query('courseId') courseId: string
   ) {
+    console.log(await this.chapterService.getProgressTest(userId, courseId));
     return await this.chapterService.getProgressTest(userId, courseId);
   }
 }

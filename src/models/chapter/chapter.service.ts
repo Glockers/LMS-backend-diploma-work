@@ -45,33 +45,35 @@ export class ChapterService {
   }: TestResult) {
     const isCompleted = correctAnswers <= 8 ? false : true;
 
-    const userProgress = await this.databaseService.userProgressTest.upsert({
-      where: {
-        userId_courseId: {
+    const userProgressTest = await this.databaseService.userProgressTest.upsert(
+      {
+        where: {
+          userId_courseId: {
+            userId,
+            courseId: courseId
+          }
+        },
+        update: {
+          isCompleted: isCompleted,
+          correctAnswers,
+          timeEnd,
+          timeStart
+        },
+        create: {
+          timeStart,
+          timeEnd,
+          correctAnswers,
           userId,
+          isCompleted,
           courseId: courseId
         }
-      },
-      update: {
-        isCompleted: isCompleted,
-        correctAnswers,
-        timeEnd,
-        timeStart
-      },
-      create: {
-        timeStart,
-        timeEnd,
-        correctAnswers,
-        userId,
-        isCompleted,
-        courseId: courseId
       }
-    });
+    );
 
     if (isCompleted) {
       this.certificateService.create({ courseId, userId });
     }
-    return userProgress;
+    return userProgressTest;
   }
 
   async getProgress(userId: string, courseId: string) {
@@ -135,6 +137,17 @@ export class ChapterService {
       where: {
         userId,
         courseId
+      }
+    });
+  }
+
+  async deleteProgressTest(userId: string, courseId: string) {
+    return await this.databaseService.userProgressTest.delete({
+      where: {
+        userId_courseId: {
+          userId,
+          courseId
+        }
       }
     });
   }

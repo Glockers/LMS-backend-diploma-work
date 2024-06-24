@@ -135,9 +135,12 @@ model Certificate {
   @@unique([userId, courseId])
 }
 
-model Lections {
+model Lectures {
   id     String   @id @default(uuid())
-  link   String
+  link   String?
   date   DateTime
+  time   DateTime
   userId String
+  title  String
+  name   String?
 }
